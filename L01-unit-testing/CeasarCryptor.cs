@@ -7,27 +7,27 @@ public class CeasarCryptor
     private const int DefaultShift = 3;
     private const string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    public string Encrypt(string text) => text
-        .Select(GetEncryptedChar)
-        .Aggregate(new StringBuilder(), (builder, @char) => builder.Append(@char))
-        .ToString();
+    public string Encrypt(string text) => GetNewText(text, GetEncryptedChar);
 
-    public string Decrypt(string text) => text
-        .Select(GetDecryptedChar)
-        .Aggregate(new StringBuilder(), (builder, @char) => builder.Append(@char))
-        .ToString();
+    public string Decrypt(string text) => GetNewText(text, GetDecryptedChar);
 
-    private char GetEncryptedChar(char @char)
+    private static string GetNewText(string originalText, Func<char, char> getNewChar) =>
+        originalText
+            .Select(getNewChar)
+            .Aggregate(new StringBuilder(), (builder, @char) => builder.Append(@char))
+            .ToString();
+
+    private static char GetEncryptedChar(char originChar) =>
+        Alphabet[(GetIndexOfOriginChar(originChar) + DefaultShift) % Alphabet.Length];
+
+    private static char GetDecryptedChar(char originChar)
     {
-        var index = Alphabet.IndexOf(@char, StringComparison.OrdinalIgnoreCase);
-        var encryptedChar = Alphabet[index + DefaultShift];
-        return char.IsLower(@char) ? char.ToLower(encryptedChar) : char.ToUpper(encryptedChar);
+        var index = GetIndexOfOriginChar(originChar);
+        return index >= DefaultShift
+            ? Alphabet[index - DefaultShift]
+            : Alphabet[Alphabet.Length + index - DefaultShift];
     }
 
-    private char GetDecryptedChar(char @char)
-    {
-        var index = Alphabet.IndexOf(@char, StringComparison.OrdinalIgnoreCase);
-        var encryptedChar = Alphabet[index - DefaultShift];
-        return char.IsLower(@char) ? char.ToLower(encryptedChar) : char.ToUpper(encryptedChar);
-    }
+    private static int GetIndexOfOriginChar(char originChar) =>
+        Alphabet.IndexOf(originChar, StringComparison.OrdinalIgnoreCase);
 }
