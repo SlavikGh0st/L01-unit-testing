@@ -4,12 +4,6 @@ namespace L02_serialization;
 
 public static class Printer
 {
-    private static readonly HashSet<Type> SimpleTypes = new()
-    {
-        typeof(string),
-        typeof(int),
-    };
-
     public static string PrintToString<T>(T? obj)
     {
         if (obj == null)
@@ -24,6 +18,6 @@ public static class Printer
             stringBuilder.Append($"\t{prop.Name} = {prop.GetValue(obj)}").AppendLine();
         }
 
-        return stringBuilder.ToString();
+        return stringBuilder.ToString().Trim();
     }
 }

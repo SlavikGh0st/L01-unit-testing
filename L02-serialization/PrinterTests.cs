@@ -14,7 +14,7 @@ public class PrinterTests
         var actual = Printer.PrintToString(person);
 
         Console.WriteLine(actual);
-        actual.Should().Be("Person\r\n\tName = Slava\r\n\tAge = 33\r\n");
+        actual.Should().Be("Person\r\n\tName = Slava\r\n\tAge = 33");
     }
     
     [Test]
@@ -26,6 +26,6 @@ public class PrinterTests
         var actual = Printer.PrintToString(pos);
 
         Console.WriteLine(actual);
-        actual.Should().Be("Position\r\n\tName = Преподаватель ООП\r\n\tStartAt = 01.09.2025\r\n\tPerson = Person\r\n\t\tName = Slava\r\n\t\tAge = 33\r\n");
+        actual.Should().Be("Position\r\n\tName = Преподаватель ООП\r\n\tStartAt = 01.09.2025\r\n\tPerson = Person\r\n\t\tName = Slava\r\n\t\tAge = 33");
     }
 }
